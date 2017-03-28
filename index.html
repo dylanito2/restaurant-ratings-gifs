@@ -53,12 +53,35 @@
 			border: 2px solid #9E33F5;
 		}
 		.btn-classic{
+/*			background-color:#9E33F5;*/
+			color:white;
+			font-size:26px;
+			font-family:'Montserrat';
+			font-weight:600;
+			width:100%;
+			border-radius:0;
+			height:60px;
+/*			border:2px solid #9E33F5;*/
+			transition: ease-in-out 0.5s;	
+
+			background: linear-gradient(270deg, #9e33f5, #dd307d);
+			background-size: 400% 400%;
+
+			-webkit-animation: AnimationName 8s ease infinite;
+			-moz-animation: AnimationName 8s ease infinite;
+			animation: AnimationName 8s ease infinite;
+
+		}
+		.btn-classic:hover{
+			transition: ease-in-out 0.2s;	
+			font-size:26px;
 			background-color:#9E33F5;
+			font-weight:600;
 			color:white;
 			width:100%;
 			border-radius:0;
 			height:60px;
-		}
+		}		
 		label{
 			color:white;
 			font-family:'Montserrat';
@@ -69,6 +92,23 @@
 			margin-top:20px;
 			text-align:center !important;
 		}
+
+
+		@-webkit-keyframes AnimationName {
+		    0%{background-position:0% 50%}
+		    50%{background-position:100% 50%}
+		    100%{background-position:0% 50%}
+		}
+		@-moz-keyframes AnimationName {
+		    0%{background-position:0% 50%}
+		    50%{background-position:100% 50%}
+		    100%{background-position:0% 50%}
+		}
+		@keyframes AnimationName { 
+		    0%{background-position:0% 50%}
+		    50%{background-position:100% 50%}
+		    100%{background-position:0% 50%}
+		}		
 	</style>
 </head>
 <body>
@@ -85,7 +125,7 @@
 			<label>Zipcode</label><br>
 			<input type="text" placeholder="Zipcode" class="form-control form-fields" name="zipcode" id="zipcode"><br>
 		</div>
-		<input type="submit" class="btn btn-lg btn-classic" value="search">
+		<input type="submit" class="btn btn-lg btn-classic" value="Check Restaurant">
 	</form>
 </div>
 <script>
@@ -98,12 +138,22 @@
 			
 			$term = $("#searchBox").val();
 			$location = $("#zipcode").val();
-			
+			console.log("zipcode: " + $location)
 			$.get('http://localhost:3000?term=' + $term + '&location=' + $location, function(data){
+				
 				let newData = JSON.parse(data)
-	
-				let score = Math.floor(newData['businesses'][0]['rating'])
-				console.log()
+				
+				console.log(JSON.parse(data))
+				
+				let score
+
+				if (newData['businesses'].length != 0) {
+					score = Math.floor(newData['businesses'][0]['rating'])
+				} else {
+					score = "fail"
+				}
+				console.log("Score Is: " + score)
+
 				if (score < 3 ){
 					$wordbank = ['bad', 'gross', 'unpleasant', 'gross food', 'tastes bad', 'shitty food', 'danger', 'stinky', 'sick', 'horrible', 'yikes']	
 				}
@@ -111,13 +161,16 @@
 				else if (score === 3){
 					$wordbank =['eh', 'meh']
 				}
-
-				else {
+				else if (score > 3){
 					$wordbank = ['yum', 'mmhmm', 'that\'s what i\'m talkin\' about', 'fantastic','delicious', 'so good', 'gourmet shit', 'yummy', 'scrumptious', 'nom', 'nom nom',
-					'nom nom nom']	
+					'nom nom nom']						
 				}
+				else {
+					$wordbank = ['fail']	
+				}
+					console.log("WORDBANK is: " + $wordbank)
 					$searchTerm = $wordbank[Math.floor(Math.random() * $wordbank.length)]
-					console.log("search term: " + $searchTerm)
+					console.log("Search Term: " + $searchTerm)
 				$url = "https://api.giphy.com/v1/gifs/search?q=" + $searchTerm + "&api_key=dc6zaTOxFJmzC"
 			
 				console.log($url);
@@ -141,7 +194,6 @@
 	    			$("#showGif").html("<img class='giphy-box' src='" + newdata[arrayValue] + "'>")
 				})
 			});
-
 
 
 		})

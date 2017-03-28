@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 		
 		term = params[:term]
 
-		location = params[:location]
+		location = params[:location][0..4]
 		final_url = yelp_url + "?term=" + term + "&location=" + location
 		
 		@api_data = JSON.parse(RestClient.get(final_url, headers={'Authorization': "Bearer nEiwOdSrYOjDZMs4GCyu84kffABwGtciSCqFpd7sbIHY69fK1Hdt_FZa1--8Up6wWALWzR_Z3hLSBJS0uWyzZT6ThWyefqU4EEWHY_mqbGpd7nsEPkeFqX-tXqLaWHYx"}).body)	
