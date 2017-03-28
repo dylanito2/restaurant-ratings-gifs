@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Restaurant Ratings Gifs</title>
-  </head>
-  <body>
+<head>
+	<title>Gif Food Review</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="showGif"></div>
+<div>
+	<form>
+		<label>Restaurant Name</label><br>
+		<input type="text" name="restaurant" id="searchBox"><br>
+		<label>Zipcode</label><br>
+		<input type="text" name="zipcode" id="zipcode"><br>
+		<input type="submit" value="search">
+	</form>
+</div>
+<script>
 
-  </body>
+	$(document).ready(function(){
+		
+		$('form').submit(function(e){
+			
+			e.preventDefault();
+			
+			$term = $("#searchBox").val();
+			$location = $("#zipcode").val();
+			
+			$.get('http://localhost:3000?term=' + $term + '&location=' + $location, function(data){
+				let newData = JSON.parse(data)
+	
+				let score = Math.floor(newData['businesses'][0]['rating'])
+				console.log()
+				if (score < 3 ){
+					$wordbank = ['bad', 'gross', 'unpleasant', 'danger']	
+				}
+
+				else if (score === 3){
+					$wordbank =['eh']
+				}
+
+				else {
+					$wordbank = ['fantastic','delicious', 'so good']	
+				}
+					$searchTerm = $wordbank[Math.floor(Math.random() * $wordbank.length)]
+					console.log("search term: " + $searchTerm)
+				$url = "https://api.giphy.com/v1/gifs/search?q=" + $searchTerm + "&api_key=dc6zaTOxFJmzC"
+			
+				console.log($url);
+			
+				$.get( $url, function(data) {
+					
+					console.log(data);
+					
+					//data['data'][0]['images']['fixed_height']['url']
+					var newdata = $.map(data['data'], function(element) {
+	    			// data.forEach(function(item){
+						return	element['images']['fixed_height']['url']
+	    				//console.log(element['images']['fixed_height']['url'])
+	    			})	
+	    			
+	    			console.log(newdata)
+	    			
+	    			let arrayValue = Math.floor(Math.random() * newdata.length)
+
+	    			console.log(newdata[arrayValue] )
+	    			$("#showGif").html("<img src='" + newdata[arrayValue] + "'>")
+				})
+			});
+
+
+
+		})
+	})
+
+</script>
+</body>
 </html>
