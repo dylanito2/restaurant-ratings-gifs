@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gif Food Review</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="showGif"></div>
+<div>
+	<form>
+		<input type="text" name="restaurant" id="searchBox">
+		<input type="submit" value="search">
+	</form>
+</div>
+<script>
+	// function setHeader(xhr){
+	// 	xhrObj.setRequestHeader('Authorization',"Bearer nEiwOdSrYOjDZMs4GCyu84kffABwGtciSCqFpd7sbIHY69fK1Hdt_FZa1");
+	// }
+
+	$(document).ready(function(){
+		
+		// $.ajax({
+		//     url      : 'http://api.yelp.com/v3/business/search',
+		//     dataType : 'jsonp',
+		//     data     : {term : 'mcdonalds', location : 10002}, // callback is not necessary
+		//     success  : function(data) {
+		//     	console.log(data)
+		//         // data is a normal response shown on yelp's API page
+		//     }
+		// });
+
+		// $.ajaxSetup({
+		// 	headers : {
+		// 		'Authorization' : "bearer nEiwOdSrYOjDZMs4GCyu84kffABwGtciSCqFpd7sbIHY69fK1Hdt_FZa1--8Up6wWALWzR_Z3hLSBJS0uWyzZT6ThWyefqU4EEWHY_mqbGpd7nsEPkeFqX-tXqLaWHYx"
+		// 	}
+		// })
+
+		$.ajax
+		({
+		  method: "GET",
+		  url: "https://api.yelp.com/v3/businesses/search?term=mcdonalds&location=10002",
+		  // beforeSend: function(res){
+		  // 	res.setRequestHeader('Authorization', "bearer nEiwOdSrYOjDZMs4GCyu84kffABwGtciSCqFpd7sbIHY69fK1Hdt_FZa1--8Up6wWALWzR_Z3hLSBJS0uWyzZT6ThWyefqU4EEWHY_mqbGpd7nsEPkeFqX-tXqLaWHYx")
+		  // },
+		  headers: { 'Authorization': "Bearer nEiwOdSrYOjDZMs4GCyu84kffABwGtciSCqFpd7sbIHY69fK1Hdt_FZa1--8Up6wWALWzR_Z3hLSBJS0uWyzZT6ThWyefqU4EEWHY_mqbGpd7nsEPkeFqX-tXqLaWHYx" },
+            'dataType' : 'jsonp',
+            'async' : 'false',
+            'cache': true,
+            'success' : function(data, textStats, XMLHttpRequest) {
+                console.log(data);
+            }
+		});
+
+
+
+		// $.post({
+  //           'url' : 'https://api.yelp.com/oauth2/token',
+  //           'data' : { grant_type: 'client_credentials', client_id: 'tmUcZWeIduZJq9B_bjQDzg', client_secret: 'tmUcZWeIduZJq9B_bjQDzg'},
+  //           'dataType' : 'jsonp',
+  //           'jsonpCallback' : 'cb',
+  //           'async' : 'false',
+  //           'cache': true,
+  //           'success' : function(data, textStats, XMLHttpRequest) {
+  //               console.log(data);
+  //           }
+  //       });
+		// $.post('https://api.yelp.com/oauth2/token',
+		//  { grant_type: 'client_credentials', client_id: 'tmUcZWeIduZJq9B_bjQDzg', client_secret: 'tmUcZWeIduZJq9B_bjQDzg'}
+		// ).done(function(data) {
+		// 	console.log(data)
+		// })
+
+		$('form').submit(function(e){
+			
+			e.preventDefault();
+			
+			$searchTerm = $("#searchBox").val();
+			
+			console.log($searchTerm);
+			
+			$url = "https://api.giphy.com/v1/gifs/search?q=" + $searchTerm + "&api_key=dc6zaTOxFJmzC"
+			
+			console.log($url);
+			
+			$.get( $url, function(data) {
+				
+				console.log(data);
+				
+				//data['data'][0]['images']['fixed_height']['url']
+				var newdata = $.map(data['data'], function(element) {
+    			// data.forEach(function(item){
+					return	element['images']['fixed_height']['url']
+    				//console.log(element['images']['fixed_height']['url'])
+    			})	
+    			
+    			console.log(newdata)
+    			
+    			let arrayValue = Math.floor(Math.random() * newdata.length)
+
+    			console.log(newdata[arrayValue])
+			})
+
+		})
+	})
+
+</script>
+</body>
+</html>
