@@ -14,14 +14,18 @@ class Restaurant {
     console.log("Score Is: " + score)
     let wordbank
     if (score < 3 ){
-      wordbank = ['bad', 'gross', 'unpleasant', 'gross food', 'tastes bad', 'shitty food', 'danger', 'stinky', 'horrible', 'awful']
+      wordbank = ['bad', 'gross', 'unpleasant', 'gross food',
+      'tastes bad', 'shitty food', 'danger', 'stinky',
+      'horrible', 'awful']
     }
     else if (score === 3){
       wordbank =['eh', 'meh']
     }
     else if (score > 3){
-      wordbank = ['yum', 'nomnomnom', 'fantastic', 'delicious', 'so good', 'gourmet shit', 'yummy', 'scrumptious', 'nom', 'nom nom',
-      'nom nom nom']
+      wordbank = ['yum', 'nomnomnom', 'fantastic', 'delicious',
+      'so good', 'gourmet shit', 'yummy', 'scrumptious',
+      'nom', 'nom nom',
+      :'nom nom nom']
     }
     else {
       wordbank = ['fail']

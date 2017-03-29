@@ -1,9 +1,9 @@
 $(() => {
   $('form').submit( function(e) {
     e.preventDefault()
-    $term = $("#searchBox").val()
-    $location = $("#zipcode").val()
-    $targetDiv = $("#showGif")
+    let $term = $("#searchBox").val()
+    let $location = $("#zipcode").val()
+    let $targetDiv = $("#showGif")
     Restaurant.getSearchWord($term, $location)
     .then( (word) => {
       Gif.getGifLink(word)
