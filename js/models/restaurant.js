@@ -24,8 +24,7 @@ class Restaurant {
     else if (score > 3){
       wordbank = ['yum', 'nomnomnom', 'fantastic', 'delicious',
       'so good', 'gourmet shit', 'yummy', 'scrumptious',
-      'nom', 'nom nom',
-      :'nom nom nom']
+      'nom', 'nom nom', 'nom nom nom']
     }
     else {
       wordbank = ['fail']
